@@ -406,6 +406,10 @@
             font-weight: 600;
         }
 
+        .keyword-badge.opsional {
+            background: linear-gradient(135deg, #20c997, #0dcaf0);
+        }
+
         .keyword-badge {
             display: inline-block;
             background: #10b981;
@@ -535,19 +539,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Judul Artikel / Topik Utama *</label>
+                    <label>Judul Artikel / Topik Utama <span style="font-weight:400; color:#6c757d;">(Opsional)</span></label>
                     <input type="text" id="blog-title" placeholder="Contoh: Cara Meningkatkan Traffic Website dengan SEO">
-                    <div class="help-text">Masukkan judul atau topik artikel yang ingin Anda buat</div>
+                    <div class="help-text">✨ <strong>Boleh dikosongkan</strong> — jika tidak diisi, AI akan otomatis membuatkan judul yang relevan dan menarik berdasarkan isi draft artikel Anda</div>
                 </div>
 
                 <!-- FITUR UPGRADE: Keyword Utama -->
                 <div class="form-group">
                     <label>
                         Keyword Utama (Untuk Optimasi SEO)
-                        <span class="keyword-badge">PENTING</span>
+                        <span class="keyword-badge opsional">OPSIONAL</span>
                     </label>
                     <input type="text" id="blog-keyword" placeholder="Contoh: SEO on-page, optimasi website, teknik SEO 2024">
-                    <div class="help-text">Keyword akan diintegrasikan secara natural di judul, H2/H3, paragraf awal, dan meta description (density 1-2%)</div>
+                    <div class="help-text">✨ <strong>Boleh dikosongkan</strong> — jika tidak diisi, AI akan otomatis menentukan keyword yang paling relevan dari isi artikel dan mengintegrasikannya secara natural (density 1-2%)</div>
                 </div>
 
                 <!-- FITUR BARU: Gaya Tulisan Indonesia -->
@@ -737,18 +741,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Judul Berita / Topik *</label>
+                    <label>Judul Berita / Topik <span style="font-weight:400; color:#6c757d;">(Opsional)</span></label>
                     <input type="text" id="news-title" placeholder="Contoh: Peluncuran Produk Baru XYZ di Jakarta">
-                    <div class="help-text">Masukkan judul atau topik berita yang ingin ditulis</div>
+                    <div class="help-text">✨ <strong>Boleh dikosongkan</strong> — jika tidak diisi, AI akan otomatis membuatkan judul berita yang faktual dan menarik berdasarkan informasi 5W+1H yang Anda berikan</div>
                 </div>
 
                 <div class="form-group">
                     <label>
                         Keyword Utama (Untuk Optimasi SEO)
-                        <span class="keyword-badge">PENTING</span>
+                        <span class="keyword-badge opsional">OPSIONAL</span>
                     </label>
                     <input type="text" id="news-keyword" placeholder="Contoh: peluncuran produk, teknologi baru, Jakarta 2024">
-                    <div class="help-text">Keyword akan diintegrasikan natural di lead paragraph, subjudul, dan body berita</div>
+                    <div class="help-text">✨ <strong>Boleh dikosongkan</strong> — jika tidak diisi, AI akan otomatis menentukan keyword yang paling relevan dari konteks berita dan mengintegrasikannya natural di lead paragraph, subjudul, dan body berita</div>
                 </div>
 
                 <div class="form-group">
@@ -844,6 +848,113 @@
             });
         });
 
+        // --- NEW FEATURE START ---
+
+        // Daftar kata umum (stop words) Bahasa Indonesia untuk diabaikan saat mencari keyword
+        const stopWords = [
+            'ada', 'adalah', 'adanya', 'adapun', 'agak', 'agaknya', 'agar', 'akan', 'akankah', 'akhir', 'akhiri', 'akhirnya', 'aku', 'akulah',
+            'amat', 'amatlah', 'anda', 'andalah', 'antar', 'antara', 'antaranya', 'apa', 'apaan', 'apabila', 'apakah', 'apalagi', 'apatah',
+            'artinya', 'asal', 'asalkan', 'atas', 'atau', 'ataukah', 'ataupun', 'awal', 'awalnya', 'bagai', 'bagaikan', 'bagaimana',
+            'bagaimanakah', 'bagaimanapun', 'bagi', 'bagian', 'bahkan', 'bahwa', 'bahwasanya', 'baik', 'bakal', 'bakalan', 'balik', 'banyak',
+            'bapak', 'baru', 'bawah', 'beberapa', 'begini', 'beginian', 'beginikah', 'beginilah', 'begitu', 'begitukah', 'begitulah',
+            'begitupun', 'bekerja', 'belakang', 'belakangan', 'belum', 'belumlah', 'benar', 'benarkah', 'benarlah', 'berada', 'berakhir',
+            'berakhirlah', 'berakhirnya', 'berapa', 'berapakah', 'berapalah', 'berapapun', 'berarti', 'berawal', 'berbagai', 'berdatangan',
+            'beri', 'berikan', 'berikut', 'berikutnya', 'berjumlah', 'berkali-kali', 'berkata', 'berkehendak', 'berkeinginan', 'berkenaan',
+            'berlainan', 'berlalu', 'berlangsung', 'berlebihan', 'bermacam', 'bermacam-macam', 'bermaksud', 'bermula', 'bersama', 'bersama-sama',
+            'bersiap', 'bersiap-siap', 'bertanya', 'bertanya-tanya', 'berturut', 'berturut-turut', 'bertutur', 'berujar', 'berupa', 'besar',
+            'betul', 'betulkah', 'biasa', 'biasanya', 'bila', 'bilakah', 'bisa', 'bisakah', 'boleh', 'bolehkah', 'bolehlah', 'buat', 'bukan',
+            'bukankah', 'bukanlah', 'bukannya', 'bulan', 'bung', 'cara', 'caranya', 'cukup', 'cukupkah', 'cukuplah', 'cuma', 'dahulu',
+            'dalam', 'dan', 'dapat', 'dari', 'daripada', 'datang', 'demi', 'demikian', 'demikianlah', 'dengan', 'depan', 'di', 'dia',
+            'diakhiri', 'diakhirinya', 'dialah', 'diantara', 'diantaranya', 'diberi', 'diberikan', 'diberikannya', 'dibuat', 'dibuatnya',
+            'didapat', 'didatangkan', 'digunakan', 'diibaratkan', 'diibaratkannya', 'diingat', 'diingatkan', 'diinginkan', 'dijawab',
+            'dijelaskan', 'dijelaskannya', 'dikarenakan', 'dikatakan', 'dikatakannya', 'dikerjakan', 'diketahui', 'diketahuinya',
+            'dikerjakan', 'dikirim', 'dilakukan', 'dilalui', 'dilihat', 'dimaksud', 'dimaksudkan', 'dimaksudkannya', 'dimaksudnya',
+            'diminta', 'dimintai', 'dimisalkan', 'dimulai', 'dimulailah', 'dimulainya', 'dimungkinkan', 'dini', 'dipastikan', 'diperbuat',
+            'diperbuatnya', 'dipergunakan', 'diperkirakan', 'diperlihatkan', 'diperlukan', 'diperlukannya', 'dipersoalkan', 'dipertanyakan',
+            'dipunyai', 'diri', 'dirinya', 'disampaikan', 'disebut', 'disebutkan', 'disebutkannya', 'disini', 'disinilah', 'ditambahkan',
+            'ditandaskan', 'ditanya', 'ditanyai', 'ditanyakan', 'ditegaskan', 'ditujukan', 'ditunjuk', 'ditunjuki', 'ditunjukkan',
+            'ditunjukkannya', 'dituturkan', 'dituturkannya', 'diucapkan', 'diucapkannya', 'diungkapkan', 'dong', 'dua', 'dulu', 'enggak',
+            'enggaknya', 'entah', 'entahlah', 'guna', 'gunakan', 'hal', 'hampir', 'hanya', 'hanyalah', 'hari', 'harus', 'haruslah',
+            'harusnya', 'hendak', 'hendaklah', 'hendaknya', 'hingga', 'ia', 'ialah', 'ibu', 'ikut', 'ingat', 'ingat-ingat', 'ini', 'inikah',
+            'inilah', 'itu', 'itukah', 'itulah', 'jadi', 'jadilah', 'jadinya', 'jangan', 'jangankan', 'janganlah', 'jauh', 'jawab',
+            'jawaban', 'jawabnya', 'jelas', 'jelaskan', 'jelaslah', 'jelasnya', 'jika', 'jikalau', 'juga', 'jumlah', 'jumlahnya', 'justru',
+            'kala', 'kalau', 'kalaulah', 'kalaupun', 'kalian', 'kami', 'kamilah', 'kamu', 'kamulah', 'kan', 'kapan', 'kapankah', 'kapanpun',
+            'karena', 'karenanya', 'kasus', 'kata', 'katakan', 'katakanlah', 'katanya', 'ke', 'keadaan', 'kebetulan', 'kecil', 'kedua',
+            'keduanya', 'keinginan', 'kelak', 'kelima', 'keluar', 'kembali', 'kemudian', 'kemungkinan', 'kemungkinannya', 'kenapa',
+            'kepada', 'kepadanya', 'kesampaian', 'keseluruhan', 'keseluruhannya', 'keterlaluan', 'ketika', 'khususnya', 'kini', 'kinilah',
+            'kira', 'kira-kira', 'kiranya', 'kita', 'kitalah', 'kok', 'kurang', 'lagi', 'lagian', 'lah', 'lain', 'lainnya', 'lalu', 'lama',
+            'lamanya', 'lanjut', 'lanjutnya', 'lebih', 'lewat', 'lima', 'luar', 'macam', 'maka', 'makanya', 'makin', 'malah', 'malahan',
+            'mampu', 'mampukah', 'mana', 'manakala', 'manalagi', 'masa', 'masalah', 'masalahnya', 'masih', 'masihkah', 'masing-masing', 'mau',
+            'maupun', 'melainkan', 'melakukan', 'melalui', 'melihat', 'melihatnya', 'memang', 'memastikan', 'memberi', 'memberikan', 'membuat',
+            'memerlukan', 'memihak', 'meminta', 'memintakan', 'memisalkan', 'memperbuat', 'mempergunakan', 'memperkirakan', 'memperlihatkan',
+            'mempersiapkan', 'mempersoalkan', 'mempertanyakan', 'mempunyai', 'memulai', 'memungkinkan', 'menaiki', 'menandaskan', 'menanti',
+            'menanti-nanti', 'menantikan', 'menanya', 'menanyai', 'menanyakan', 'mendapat', 'mendapatkan', 'mendatang', 'mendatangi',
+            'mendatangkan', 'menegaskan', 'mengakhiri', 'mengapa', 'mengatakan', 'mengatakannya', 'mengenai', 'mengerjakan', 'mengetahui',
+            'menggunakan', 'menghendaki', 'mengibaratkan', 'mengibaratkannya', 'mengingat', 'mengingatkan', 'menginginkan', 'mengira',
+            'mengucapkan', 'mengucapkannya', 'mengungkapkan', 'menjadi', 'menjawab', 'menjelaskan', 'menuju', 'menunjuk', 'menunjuki',
+            'menunjukkan', 'menurut', 'menuturkan', 'menyampaikan', 'menyangkut', 'menyatakan', 'menyebutkan', 'menyeluruh', 'menyiapkan',
+            'merasa', 'mereka', 'merekalah', 'merupakan', 'meski', 'meskipun', 'meyakini', 'meyakinkan', 'minta', 'mirip', 'misal', 'misalkan',
+            'misalnya', 'mula', 'mulai', 'mulailah', 'mulanya', 'mungkin', 'mungkinkah', 'nah', 'naik', 'namun', 'nanti', 'nantinya', 'nyaris',
+            'nyatanya', 'oleh', 'olehnya', 'pada', 'padahal', 'padanya', 'pak', 'paling', 'panjang', 'pantas', 'para', 'pasti', 'pastilah',
+            'penting', 'pentingnya', 'per', 'percuma', 'perlu', 'perlukah', 'perlunya', 'pernah', 'persoalan', 'pertama', 'pertama-tama',
+            'pertanyaan', 'pertanyakan', 'pihak', 'pihaknya', 'pukul', 'pula', 'pun', 'punya', 'rasa', 'rasanya', 'rata', 'rupanya', 'saat',
+            'saatnya', 'saja', 'sajalah', 'saling', 'sama', 'sama-sama', 'sambil', 'sampai', 'sampai-sampai', 'sampaikan', 'sana', 'sangat',
+            'sangatlah', 'sangkut', 'satu', 'saya', 'sayalah', 'se', 'sebab', 'sebabnya', 'sebagai', 'sebagaimana', 'sebagainya', 'sebagian',
+            'sebaik', 'sebaik-baiknya', 'sebaiknya', 'sebaliknya', 'sebanyak', 'sebelum', 'sebelumnya', 'sebenarnya', 'seberapa', 'sebesar',
+            'sebetulnya', 'sebisanya', 'sebuah', 'sebut', 'sebutlah', 'sebutnya', 'secara', 'secukupnya', 'sedang', 'sedangkan', 'sedemikian',
+            'sedikit', 'sedikitnya', 'seenaknya', 'segala', 'segalanya', 'segera', 'seharusnya', 'sehingga', 'seingat', 'sejak', 'sejauh',
+            'sejenak', 'sejumlah', 'sekadar', 'sekadarnya', 'sekali', 'sekali-kali', 'sekalian', 'sekaligus', 'sekalipun', 'sekarang',
+            'sekaranglah', 'sekecil', 'seketika', 'sekiranya', 'sekitar', 'sekitarnya', 'sela', 'selain', 'selaku', 'selalu', 'selama',
+            'selama-lamanya', 'selamanya', 'selanjutnya', 'seluruh', 'seluruhnya', 'semacam', 'semakin', 'semampu', 'semampunya', 'semasa',
+            'semasih', 'semata', 'semata-mata', 'semaunya', 'sementara', 'semisal', 'semisalnya', 'sempat', 'semua', 'semuanya', 'semula',
+            'sendiri', 'sendirian', 'sendirinya', 'seolah', 'seolah-olah', 'seorang', 'sepanjang', 'sepantasnya', 'sepantasnyalah', 'seperlunya',
+            'seperti', 'sepertinya', 'sepeserpun', 'sering', 'seringnya', 'serta', 'serupa', 'sesaat', 'sesampai', 'sesegera', 'sesekali',
+            'seseorang', 'sesuatu', 'sesuatunya', 'sesudah', 'sesudahnya', 'setelah', 'setempat', 'setengah', 'seterusnya', 'setiap', 'setiba',
+            'setibanya', 'setidak-tidaknya', 'setidaknya', 'setinggi', 'seusai', 'sih', 'siap', 'siapa', 'siapakah', 'siapapun', 'sini',
+            'sinilah', 'soal', 'soalnya', 'suatu', 'sudah', 'sudahkah', 'sudahlah', 'supaya', 'tadi', 'tadinya', 'tahu', 'tahun', 'tak',
+            'tama', 'tambah', 'tambahnya', 'tampak', 'tampaknya', 'tandas', 'tandasnya', 'tanpa', 'tanya', 'tanyakan', 'tanyanya', 'tapi',
+            'tegas', 'tegasnya', 'telah', 'tempat', 'tengah', 'tentang', 'tentu', 'tentulah', 'tentunya', 'tepat', 'terakhir', 'terasa',
+            'terbanyak', 'terdahulu', 'terdapat', 'terdiri', 'terhadap', 'terhadapnya', 'teringat', 'teringat-ingat', 'terjadi', 'terjadilah',
+            'terjadinya', 'terkira', 'terlalu', 'terlebih', 'terlihat', 'termasuk', 'ternyata', 'terpaksa', 'terserah', 'tertentu', 'tertuju',
+            'terus', 'terutama', 'tetap', 'tetapi', 'tiap', 'tiba', 'tiba-tiba', 'tidak', 'tidakkah', 'tidaklah', 'tiga', 'toh', 'turut',
+            'ucap', 'ucapnya', 'ujar', 'ujarnya', 'umum', 'umumnya', 'ungkap', 'ungkapnya', 'untuk', 'usah', 'usai', 'waduh', 'wah', 'wahai',
+            'waktu', 'waktunya', 'walau', 'walaupun', 'wong', 'yaitu', 'yakin', 'yakni', 'yang'
+        ];
+
+        /**
+         * Fungsi untuk mengekstrak keyword relevan dari sebuah teks.
+         * @param {string} text - Teks sumber.
+         * @param {number} count - Jumlah keyword yang ingin diambil.
+         * @returns {string[]} - Array berisi keyword.
+         */
+        function extractKeywords(text, count) {
+            if (!text) return [];
+            
+            const words = text
+                .toLowerCase()
+                .replace(/[^\w\s]/g, '') // Hapus tanda baca
+                .split(/\s+/); // Pisah menjadi kata
+
+            const wordFrequencies = {};
+
+            for (const word of words) {
+                // Abaikan jika merupakan stop word atau kata yang terlalu pendek
+                if (!stopWords.includes(word) && word.length > 3) {
+                    wordFrequencies[word] = (wordFrequencies[word] || 0) + 1;
+                }
+            }
+
+            // Urutkan kata berdasarkan frekuensi
+            const sortedKeywords = Object.keys(wordFrequencies).sort((a, b) => {
+                return wordFrequencies[b] - wordFrequencies[a];
+            });
+
+            // Ambil sejumlah `count` keyword teratas
+            return sortedKeywords.slice(0, count);
+        }
+
+        // --- NEW FEATURE END ---
+
         // Daftar gaya tulisan dengan instruksi spesifik
         const writingStyles = {
             tutorial: {
@@ -861,7 +972,10 @@ ATURAN KHUSUS:
 - Gunakan imperative mood ("Lakukan X", "Klik Y")
 - Sertakan screenshot/gambar placeholder jika perlu
 - Tambahkan warning untuk langkah krusial
-- Berikan alternatif jika ada cara lain`,
+- Berikan alternatif jika ada cara lain
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Instruksional namun friendly, seperti mentor yang sabar'
             },
@@ -880,7 +994,10 @@ ATURAN KHUSUS:
 - Setiap poin bisa standalone (orang bisa skip)
 - Gunakan subheading deskriptif (bukan "Poin 1" tapi "Optimasi Meta Description")
 - Tambahkan visual/contoh di setiap poin
-- Urutkan dari yang paling penting/menarik`,
+- Urutkan dari yang paling penting/menarik
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Engaging dan scannable, info padat per poin'
             },
@@ -899,7 +1016,10 @@ ATURAN KHUSUS:
 - Detail sensorik dan deskriptif
 - Pace lebih lambat, tidak terburu-buru
 - Human interest angle
-- Karakter dan setting yang vivid`,
+- Karakter dan setting yang vivid
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Naratif, deskriptif, engaging secara emosional'
             },
@@ -918,7 +1038,10 @@ ATURAN KHUSUS:
 - Sertakan sitasi (Author, Tahun) atau footnote
 - Data dan grafik untuk mendukung argumen
 - Balance antara depth dan accessibility
-- Hindari jargon tanpa penjelasan`,
+- Hindari jargon tanpa penjelasan
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Authoritative tapi accessible, edukatif tanpa condescending'
             },
@@ -937,7 +1060,10 @@ ATURAN KHUSUS:
 - Gunakan "Saya percaya", "Menurut saya", "Pandangan saya"
 - Argumentasi logis dengan evidence
 - Persuasif tapi bukan propaganda
-- Boleh controversial tapi tetap respectful`,
+- Boleh controversial tapi tetap respectful
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Assertive, passionate, tapi tetap reasoned'
             },
@@ -956,7 +1082,10 @@ ATURAN KHUSUS:
 - Objektif tapi dengan perspektif personal
 - Sertakan "Who should buy/use this?"
 - Gunakan tabel perbandingan jika ada
-- Transparansi tentang testing/experience Anda`,
+- Transparansi tentang testing/experience Anda
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Evaluatif, balanced, helpful untuk keputusan'
             },
@@ -975,7 +1104,10 @@ ATURAN KHUSUS:
 - Gunakan dialog untuk menghidupkan cerita
 - Detail sensorik dan imagery
 - Pace yang dinamis (cepat-lambat)
-- Lesson atau insight tersirat, bukan eksplisit`,
+- Lesson atau insight tersirat, bukan eksplisit
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Naratif, emosional, immersive'
             },
@@ -994,7 +1126,10 @@ ATURAN KHUSUS:
 - Atribusi jelas untuk setiap klaim
 - Kalimat pendek dan langsung
 - Hindari opini pribadi
-- Verifikasi akurasi informasi`,
+- Verifikasi akurasi informasi
+- ❌ DILARANG KERAS: tanda pisah panjang (—) atau (–) dalam bentuk apapun. Ganti dengan koma, titik, atau kata "yaitu/seperti/misalnya/atau"
+- ❌ DILARANG KERAS: titik dua (:) kecuali untuk waktu (10.00 WIB) dan atribusi quote
+- ❌ DILARANG KERAS: *teks*, **teks**, tanda bintang, tanda pagar (#) di luar tag HTML`,
 
                 tone: 'Objektif, faktual, straight-to-the-point'
             }
@@ -1033,9 +1168,14 @@ ATURAN KHUSUS:
 
         // Generate Blog Prompt
         function generateBlogPrompt() {
-            const title = document.getElementById('blog-title').value;
-            const keyword = document.getElementById('blog-keyword').value;
-            const draft = document.getElementById('blog-draft').value;
+            // Ambil nilai dari elemen form
+            let title = document.getElementById('blog-title').value.trim();
+            let keyword = document.getElementById('blog-keyword').value.trim();
+            const draft = document.getElementById('blog-draft').value.trim();
+
+            const autoGenerateTitle = !title;
+            const autoGenerateKeyword = !keyword;
+
             const length = document.getElementById('blog-length').value;
             const pronouns = document.getElementById('blog-pronouns').value;
             const style = document.querySelector('input[name="blog-style"]:checked').value;
@@ -1048,8 +1188,8 @@ ATURAN KHUSUS:
             const rhetorical = document.getElementById('blog-rhetorical').checked;
             const imperfect = document.getElementById('blog-imperfect').checked;
             
-            if (!title) {
-                alert('Mohon masukkan judul artikel terlebih dahulu!');
+            if (!title && !draft) {
+                alert('Mohon masukkan Judul Artikel atau isi Draft Artikel terlebih dahulu!');
                 return;
             }
 
@@ -1102,7 +1242,19 @@ ATURAN KHUSUS:
 Kamu adalah penulis artikel SEO profesional yang menulis seperti MANUSIA ASLI, bukan AI. Tulisanmu harus lolos dari AI detector dengan skor human-written minimal 90%.
 
 ## TOPIK ARTIKEL
-Judul/Topik - ${title}`;
+Judul/Topik - ${title || '[LIHAT INSTRUKSI AUTO-GENERATE DI BAWAH]'}`;
+
+            if (autoGenerateTitle) {
+                prompt += `
+
+## 🤖 AUTO-GENERATE JUDUL (WAJIB DILAKUKAN AI!)
+User tidak mengisi judul. Kamu WAJIB membuat judul artikel yang:
+- Relevan dan mencerminkan isi artikel/draft yang diberikan
+- Menarik, natural, dan SEO-friendly (42-46 karakter)
+- Mengandung keyword utama yang paling relevan
+- Tidak generik — harus spesifik sesuai topik
+- Tampilkan judul yang kamu buat di bagian OUTPUT (poin 1)`;
+            }
 
             if (keyword) {
                 prompt += `
@@ -1132,6 +1284,18 @@ ATURAN KEYWORD:
 ❌ JANGAN ulang-ulang keyword di paragraf yang sama`;
             }
 
+            if (autoGenerateKeyword) {
+                prompt += `
+
+## 🤖 AUTO-GENERATE KEYWORD (WAJIB DILAKUKAN AI!)
+User tidak mengisi keyword. Kamu WAJIB:
+1. Analisis isi artikel/draft yang diberikan
+2. Tentukan 1 keyword utama yang paling relevan dan memiliki potensi SEO tinggi
+3. Tentukan 2-3 keyword pendukung (LSI) yang relevan
+4. Integrasikan keyword-keyword tersebut secara natural di judul, subjudul, paragraf awal, dan body artikel (density 1-2%)
+5. Tampilkan keyword yang kamu pilih di bagian OUTPUT (poin 6)`;
+            }
+
             prompt += `
 
 ## 📝 GAYA TULISAN YANG DIPILIH
@@ -1152,6 +1316,24 @@ Style - ${pronounInfo.desc}
 Contoh penggunaan - ${pronounInfo.examples}
 
 ⚠️ CRITICAL - Gunakan KONSISTEN dari awal sampai akhir artikel!`;
+
+            prompt += `
+
+## 🧑 PERSONA PENULIS (WAJIB DISISIPKAN SECARA NATURAL!)
+Penulis artikel ini adalah seorang Agen BRILink yang kesehariannya selalu di depan komputer mengerjakan banyak hal dan selalu terhubung dengan internet, juga menjalankan usaha percetakan rumahan, serta selalu ingin tahu tentang perkembangan AI dan dunia teknologi.
+
+WAJIB SISIPKAN latar belakang ini secara NATURAL di dalam artikel, misalnya:
+- Di bagian pembuka atau paragraf personal: "Sebagai Agen BRILink yang sehari-hari berkutat di depan komputer..."
+- Saat memberikan opini/anekdot: "Dari pengalaman ${pronounInfo.first} yang juga mengelola percetakan rumahan..."
+- Saat membahas teknologi/AI: "Sebagai orang yang selalu penasaran dengan perkembangan AI dan teknologi..."
+- Bisa juga disisipkan ringan: "...ini ${pronounInfo.first} pelajari sambil nyambi jadi Agen BRILink."
+
+ATURAN PENYISIPAN:
+✅ Masukkan minimal 1-2 kali secara natural di dalam artikel
+✅ Harus terasa organik, bukan dipaksakan
+✅ Gunakan sebagai perkuat sudut pandang personal dan menambah kredibilitas
+❌ JANGAN tempelkan sekaligus semua identitas dalam satu kalimat (terkesan kaku)
+❌ JANGAN letakkan di satu blok tersendiri — sisipkan menyatu dengan alur artikel`;
 
             prompt += `
 
@@ -1250,9 +1432,16 @@ Tulisan yang HANYA berisi data dan fakta tanpa sentuhan personal akan 100% terde
 - Struktur listicle kaku - "Pertama..., Kedua..., Ketiga..." (kecuali memang gaya listicle)
 - Semua paragraf panjangnya sama persis
 - Kalimat yang terlalu perfect dan formal
-- **TITIK DUA (:)** kecuali untuk waktu (contoh "Pukul 10.00 WIB")
+- *Teks*, **Teks**, tanda bintang (*), tanda pagar (#) di luar tag HTML
+- TITIK DUA (:) kecuali untuk waktu (contoh "Pukul 10.00 WIB") dan atribusi quote
   * SALAH - "Ada 3 cara: pertama, kedua, ketiga"
   * BENAR - "Ada 3 cara. Pertama, kedua, ketiga." atau "Ada 3 cara, yaitu pertama..."
+- ⚠️ TANDA PISAH PANJANG (—) atau (–) — INI ADALAH CIRI KHAS AI YANG PALING SERING TERDETEKSI!
+  * SALAH - "Hasilnya — luar biasa" atau "Cara ini — yang terbaik — harus dicoba"
+  * BENAR - "Hasilnya, luar biasa." atau "Cara ini, yang terbaik, harus dicoba."
+  * SALAH - "Teknik ini — mudah dan efektif — cocok untuk pemula"
+  * BENAR - "Teknik ini mudah dan efektif, cocok banget untuk pemula."
+  * GUNAKAN SEBAGAI GANTINYA: koma (,) atau titik (.) atau "yaitu" atau "atau" atau "karena" atau "yang"
 - Kata-kata AI detector magnet - "comprehensive", "delve into", "navigating", "landscape", "realm", "robust", "streamline", "crucial", "paramount", "leverage", "utilize"
 - Repetisi kata yang berlebihan dalam paragraf yang sama
 - Tone yang terlalu objektif tanpa personality
@@ -1266,7 +1455,7 @@ Tulisan yang HANYA berisi data dan fakta tanpa sentuhan personal akan 100% terde
 - Gunakan sinonim dan variasi kata
 - Tunjukkan personality dan voice yang khas
 - Alur pemikiran yang mengalir seperti orang ngomong
-- Gunakan koma, titik, atau kata penghubung "yaitu", "seperti", "misalnya" sebagai pengganti titik dua`;
+- Gunakan koma, titik, atau kata penghubung "yaitu", "seperti", "misalnya" sebagai pengganti titik dua dan tanda pisah`;
 
             if (draft) {
                 prompt += `
@@ -1322,25 +1511,31 @@ ${elements.map(e => `- ${e.charAt(0).toUpperCase() + e.slice(1)}`).join('\n')}
 - Minimal 2 subjudul (<h3>) setiap 300 kata
 - Semua paragraf menggunakan tag <p>
 
-❌ HINDARI DI KONTEN ARTIKEL:
-- **Titik dua (:)** - Gunakan koma, titik, atau kata "yaitu/seperti/misalnya" sebagai pengganti
-- Penggunaan em dash (tanda hubung panjang/—), gunakan koma atau titik
+❌ HINDARI DI KONTEN ARTIKEL (BERLAKU UNTUK SEMUA GAYA TULISAN TANPA TERKECUALI!):
+- *Teks*, **Teks**, tanda bintang (*), tanda pagar (#) di luar tag HTML
+- Titik dua (:) - kecuali waktu (10.00 WIB) dan atribusi quote. Ganti dengan koma, titik, atau "yaitu/seperti/misalnya"
+- ⛔ TANDA PISAH PANJANG (—) dan TANDA PISAH PENDEK (–) — DILARANG TOTAL, INI PENANDA UTAMA TULISAN AI!
+  Contoh salah: "Hasilnya — memuaskan" / "Cara ini — simpel tapi efektif — wajib dicoba"
+  Contoh benar: "Hasilnya memuaskan." / "Cara ini simpel tapi efektif, wajib dicoba."
+  Ganti selalu dengan: koma (,) atau titik (.) atau kata "yaitu/atau/karena/yang/sehingga"
 - Kata pengisi berlebihan - bisa, mungkin, hanya, yang, sangat, sebenarnya, tentu
 - Kata AI - selami, menyelidiki, menavigasi, realm, komprehensif, krusial, robust, leverage, streamline, utilize, paramount
 - Frasa klise - "Di era digital ini", "Panduan lengkap", "Dalam konteks ini"
-- Markdown, tanda bintang, tanda pagar
+- Markdown di luar tag HTML, tanda bintang, tanda pagar
 - Kalimat pembuka umum - "kesimpulannya", "pada akhirnya", "dapat disimpulkan bahwa"
 - Semua kalimat dengan pola subject-verb-object yang monoton
 
 ## FORMAT OUTPUT YANG DIHARAPKAN
-1. Judul Artikel (42-46 karakter, menarik dan natural, include keywo rd jika ada)
+1. Judul Artikel (42-46 karakter, menarik dan natural, include keyword${autoGenerateTitle ? ' — BUAT OTOMATIS YANG RELEVAN DARI ISI ARTIKEL' : ''})
 2. Meta Deskripsi (130-150 karakter, with personality, include keyword)
 3. Konten HTML Lengkap (dengan personality dan voice yang kuat)
 4. Gambar Header dengan format:
    <img src="https://tse1.mm.bing.net/th?q=[keyword]" alt="[deskripsi natural dengan keyword]" title="[judul natural]" width="100%">
 5. Label (maksimal 5, relevant, include keyword variations)
-6. Keyword Utama${keyword ? ' - ' + keyword : ''}
+6. Keyword Utama${keyword ? ' - ' + keyword : (autoGenerateKeyword ? ' — TENTUKAN & TULIS KEYWORD YANG KAMU PILIH' : '')}
 7. Permalink SEO-friendly (maksimal 39 karakter, include keyword)
+8. Prompt Thumbnail (rasio 3:2) - Buatkan 1 prompt gambar dalam Bahasa Inggris yang siap dipakai di tools AI image generator (Midjourney/DALL-E/Stable Diffusion) untuk membuat thumbnail artikel ini. Prompt harus mencerminkan isi dan judul artikel, visual menarik, modern, dan profesional. Sertakan juga instruksi footer branding berikut di dalam prompt: at the bottom of the image add a dark footer ribbon/bar containing the TikTok logo icon placed next to bold white text "@intiscope", and bold white text "pointru.com" on the right side, large and very clearly readable bold typography. Format penulisannya:
+   THUMBNAIL PROMPT: [isi prompt bahasa Inggris, deskriptif, siap pakai], aspect ratio 3:2
 
 ## STRUKTUR ARTIKEL YANG DIHARAPKAN
 
@@ -1358,8 +1553,8 @@ ${styleInfo.structure}
 
 ### Penutup
 <h3>Akhir Kata</h3>
-<p>Jadi, intinya [rangkum dengan bahasa sesuai gaya ${pronounInfo.desc}]. Dari pengalaman ${pronounInfo.first}, [tambah insight personal]. Artikel terkait ${keyword} ini bisa ngasih ${pronounInfo.second} gambaran yang lebih jelas. Kalau ada pertanyaan atau pengalaman serupa, feel free buat komen di bawah ya!</p>
-<p>Untuk membaca artikel lainnya beberapa ada dibawah, dan untuk lengkapnya cek aja di <a href="https://www.pointru.com/p/sitemap.html">Sitemap</a>.</p>
+<p>Jadi, intinya [rangkum dengan bahasa sesuai gaya ${pronounInfo.desc}]. Dari pengalaman ${pronounInfo.first}, [tambah insight personal]. Artikel tentang ${title || '[topik artikel ini]'} ini hopefully bisa ngasih ${pronounInfo.second} gambaran yang lebih jelas. Kalau ada pertanyaan atau pengalaman serupa, feel free buat komen di bawah ya!</p>
+<p>Baca artikel lainnya, cek aja di <a href="https://www.pointru.com/p/sitemap.html">Sitemap</a>.</p>
 
 ## 🎯 FINAL CHECKLIST SEBELUM SUBMIT:
 Pastikan artikel sudah:
@@ -1370,10 +1565,12 @@ Pastikan artikel sudah:
 - [ ] Variasi panjang kalimat (pendek, sedang, panjang)
 - [ ] Ada ekspresi emosi atau reaksi personal
 - [ ] Ada pertanyaan retoris (minimal 2)
-- [ ] TIDAK ada titik dua (:) kecuali untuk waktu, em dash (tanda hubung panjang/—)
+- [ ] TIDAK ada titik dua (:) kecuali untuk waktu dan atribusi quote
+- [ ] TIDAK ADA TANDA PISAH (—) atau (–) sama sekali di seluruh artikel — ganti semua dengan koma atau titik
 - [ ] Tidak ada kata-kata AI detector magnet
 - [ ] Tidak ada pola repetitif yang monoton
 - [ ] Personality dan voice yang kuat terasa
+- [ ] Persona penulis (Agen BRILink, percetakan, teknologi/AI) tersisip natural minimal 1-2 kali
 - [ ] Baca ulang - apakah terdengar seperti orang ngomong? Jika ya, PERFECT!
 
 INGAT - Tujuan utama adalah menulis seperti MANUSIA yang EXPERT dengan gaya ${styleInfo.name}, bukan AI yang sempurna!
@@ -1386,9 +1583,13 @@ Mulai buat artikelnya sekarang dengan personality yang kuat!`;
 
         // Generate News Prompt
         function generateNewsPrompt() {
-            const title = document.getElementById('news-title').value;
-            const keyword = document.getElementById('news-keyword').value;
-            const context = document.getElementById('news-context').value;
+            let title = document.getElementById('news-title').value.trim();
+            let keyword = document.getElementById('news-keyword').value.trim();
+            const context = document.getElementById('news-context').value.trim();
+
+            const autoGenerateTitle = !title;
+            const autoGenerateKeyword = !keyword;
+            
             const style = document.getElementById('news-style').value;
             const length = document.getElementById('news-length').value;
             
@@ -1398,8 +1599,8 @@ Mulai buat artikelnya sekarang dengan personality yang kuat!`;
             const variety = document.getElementById('news-variety').value;
             const transition = document.getElementById('news-transition').checked;
 
-            if (!title) {
-                alert('Mohon masukkan judul berita terlebih dahulu!');
+            if (!title && !context) {
+                alert('Mohon masukkan Judul Berita atau isi Informasi Dasar Berita (5W+1H) terlebih dahulu!');
                 return;
             }
 
@@ -1421,7 +1622,19 @@ Mulai buat artikelnya sekarang dengan personality yang kuat!`;
 Kamu adalah jurnalis profesional yang menulis berita faktual dengan struktur 5W+1H, TAPI dengan sentuhan reportase lapangan yang human dan natural. Berita yang terlalu kaku dan robotic akan terdeteksi AI!
 
 ## TOPIK BERITA
-Judul - ${title}`;
+Judul - ${title || '[LIHAT INSTRUKSI AUTO-GENERATE DI BAWAH]'}`;
+
+            if (autoGenerateTitle) {
+                prompt += `
+
+## 🤖 AUTO-GENERATE JUDUL BERITA (WAJIB DILAKUKAN AI!)
+User tidak mengisi judul. Kamu WAJIB membuat judul berita yang:
+- Faktual dan mencerminkan isi berita dari informasi 5W+1H yang diberikan
+- Menarik, padat, dan informatif (40-45 karakter)
+- Mengandung kata kunci utama berita secara natural
+- Mengikuti kaidah judul berita jurnalistik (bukan clickbait)
+- Tampilkan judul yang kamu buat di bagian OUTPUT (poin 1)`;
+            }
 
             if (keyword) {
                 prompt += `
@@ -1443,12 +1656,42 @@ ATURAN:
 ❌ Jangan paksa jika tidak sesuai konteks berita`;
             }
 
+            if (autoGenerateKeyword) {
+                prompt += `
+
+## 🤖 AUTO-GENERATE KEYWORD BERITA (WAJIB DILAKUKAN AI!)
+User tidak mengisi keyword. Kamu WAJIB:
+1. Analisis informasi berita (5W+1H) yang diberikan
+2. Tentukan 1 keyword utama yang paling merepresentasikan berita ini dan potensial untuk SEO
+3. Tentukan 2-3 keyword pendukung yang relevan dengan konteks berita
+4. Integrasikan keyword-keyword tersebut secara natural di lead paragraph, subjudul, dan body berita
+5. Tampilkan keyword yang kamu pilih di bagian OUTPUT (poin 5)`;
+            }
+
             if (context) {
                 prompt += `
 
 ## INFORMASI DASAR (5W+1H)
 ${context}`;
             }
+
+            prompt += `
+
+## 🧑 PERSONA PENULIS/REPORTER (WAJIB DISISIPKAN SECARA NATURAL!)
+Penulis berita ini adalah seorang Agen BRILink yang kesehariannya selalu di depan komputer mengerjakan banyak hal dan selalu terhubung dengan internet, juga menjalankan usaha percetakan rumahan, serta selalu ingin tahu tentang perkembangan AI dan dunia teknologi.
+
+WAJIB SISIPKAN latar belakang ini secara NATURAL di dalam berita, misalnya:
+- Di bagian observasi reporter: "Sebagai seseorang yang sehari-hari berkecimpung di dunia digital sebagai Agen BRILink..."
+- Saat memberikan konteks: "Dari sudut pandang pelaku usaha percetakan rumahan yang juga aktif memantau perkembangan teknologi..."
+- Saat membahas topik AI/teknologi: "Sebagai penggemar perkembangan AI, reporter menemukan bahwa..."
+- Bisa disisipkan ringan di akhir artikel atau di bagian konteks
+
+ATURAN PENYISIPAN:
+✅ Masukkan minimal 1 kali secara natural, tidak dipaksakan
+✅ Tetap jaga objektivitas berita — persona hanya sebagai sudut pandang konteks
+✅ Paling tepat di bagian observasi, konteks, atau paragraf penutup
+❌ JANGAN masukkan semua identitas dalam satu kalimat (terkesan tidak natural)
+❌ JANGAN sampai mengorbankan objektivitas dan struktur 5W+1H berita`;
 
             prompt += `
 
@@ -1523,10 +1766,17 @@ Berita yang HANYA berisi fakta kering tanpa sentuhan jurnalistik akan terdeteksi
 - Semua kalimat panjang dan kompleksitasnya sama
 - Tidak ada detail sensorik atau deskriptif
 - Hanya fakta kering tanpa konteks atau interpretasi
-- **TITIK DUA (:)** kecuali untuk waktu dan atribusi quote
+- *Teks*, **Teks**, tanda bintang (*), tanda pagar (#) di luar tag HTML
+- TITIK DUA (:) kecuali untuk waktu dan atribusi quote
   * SALAH - "Acara meliputi: pembukaan, sambutan, penutupan"
   * BENAR - "Acara meliputi pembukaan, sambutan, dan penutupan"
   * BOLEH - 'Menurut Direktur: "Kami sangat senang..."' (untuk quote)
+- ⚠️ TANDA PISAH PANJANG (—) atau TANDA PISAH PENDEK (–) — INI PENANDA UTAMA TULISAN AI, DILARANG TOTAL!
+  * SALAH - "Peluncuran ini — yang dinanti sejak lama — akhirnya terwujud"
+  * BENAR - "Peluncuran yang dinanti sejak lama ini akhirnya terwujud."
+  * SALAH - "Hasilnya — memuaskan semua pihak"
+  * BENAR - "Hasilnya memuaskan semua pihak."
+  * GANTI SELALU DENGAN: koma (,) atau titik (.) atau "yang/karena/sehingga/dan/atau"
 - Transisi formal yang kaku
 - Kata-kata AI - "comprehensive coverage", "stakeholders", "robust initiative", "leverage"
 - Quote yang terlalu perfect dan formal
@@ -1579,8 +1829,12 @@ ${elements.map(e => `- ${e.charAt(0).toUpperCase() + e.slice(1)}`).join('\n')}`;
 - Gunakan <h3> untuk subjudul yang menarik (bukan "Latar Belakang" tapi "Perjalanan Menuju Peluncuran")
 - Semua paragraf menggunakan <p>
 
-❌ HINDARI DI KONTEN BERITA:
-- **Titik dua (:)** kecuali untuk waktu (10.00 WIB) dan quote attribution
+❌ HINDARI DI KONTEN BERITA (BERLAKU MUTLAK TANPA PENGECUALIAN!):
+- *Teks*, **Teks**, tanda bintang (*), tanda pagar (#) di luar tag HTML
+- Titik dua (:) kecuali untuk waktu (10.00 WIB) dan quote attribution
+- ⛔ TANDA PISAH PANJANG (—) dan TANDA PISAH PENDEK (–) — DILARANG TOTAL DI SELURUH ISI BERITA!
+  Ini adalah ciri khas paling umum tulisan AI. Setiap kemunculan tanda ini WAJIB diganti.
+  Gunakan: koma (,) atau titik (.) atau "yang/karena/sehingga/dan/atau/namun"
 - Struktur terlalu rigid dan predictable
 - Semua kalimat dengan pola dan panjang yang sama
 - Tidak ada deskripsi atau detail visual
@@ -1594,12 +1848,15 @@ ${elements.map(e => `- ${e.charAt(0).toUpperCase() + e.slice(1)}`).join('\n')}`;
 - LAKUKAN - "Ini pencapaian luar biasa. Tim sudah kerja keras berbulan-bulan, dan akhirnya berhasil juga," ujar CEO dengan senyum lebar.
 
 ## FORMAT OUTPUT
-1. Judul Berita (40-45 karakter, faktual tapi menarik, include keyword)
+1. Judul Berita (40-45 karakter, faktual tapi menarik, include keyword${autoGenerateTitle ? ' — BUAT OTOMATIS YANG RELEVAN DARI ISI BERITA' : ''})
 2. Meta Deskripsi (130-150 karakter, with hook, include keyword)
 3. Konten HTML Berita (dengan sentuhan jurnalistik)
 4. Gambar dengan alt text yang deskriptif (include keyword)
 5. Label berita (maksimal 5, include keyword variations)
-6. Permalink SEO (maksimal 39 karakter, include keyword)
+6. Keyword Utama${keyword ? ' - ' + keyword : (autoGenerateKeyword ? ' — TENTUKAN & TULIS KEYWORD YANG KAMU PILIH' : '')}
+7. Permalink SEO (maksimal 39 karakter, include keyword)
+8. Prompt Thumbnail (rasio 3:2) - Buatkan 1 prompt gambar dalam Bahasa Inggris yang siap dipakai di tools AI image generator (Midjourney/DALL-E/Stable Diffusion) untuk membuat thumbnail berita ini. Prompt harus mencerminkan isi dan judul berita, visual jurnalistik, informatif, dan profesional. Sertakan juga instruksi footer branding berikut di dalam prompt: at the bottom of the image add a dark footer ribbon/bar containing the TikTok logo icon placed next to bold white text "@intiscope", and bold white text "pointru.com" on the right side, large and very clearly readable bold typography. Format penulisannya:
+   THUMBNAIL PROMPT: [isi prompt bahasa Inggris, deskriptif, siap pakai], aspect ratio 3:2
 
 ## PENUTUP BERITA
 <h3>Outlook ke Depan</h3>
@@ -1615,6 +1872,7 @@ Pastikan berita sudah:
 - [ ] Transisi yang mengalir (bukan "Selanjutnya", "Kemudian")
 - [ ] Detail visual atau sensorik (minimal 3)
 - [ ] TIDAK ada titik dua (:) kecuali waktu dan quote attribution
+- [ ] TIDAK ADA TANDA PISAH (—) atau (–) sama sekali di seluruh berita — ganti semua dengan koma atau titik
 - [ ] Tidak ada kata-kata AI detector magnet
 - [ ] Baca ulang - apakah terasa seperti reportase lapangan? Jika ya, PERFECT!
 
