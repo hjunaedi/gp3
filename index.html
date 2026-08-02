@@ -1421,7 +1421,8 @@ Tulisan yang HANYA berisi data dan fakta tanpa sentuhan personal akan 100% terde
    - Boleh ada sedikit digression atau side note - "Oh iya, ngomong-ngomong..."
    - Koreksi diri sendiri - "Atau mungkin lebih tepatnya...", "Maksud ${pronounInfo.first}..."
    - Kalimat yang tidak sempurna tapi natural - "Jadi gini, cara ini tuh... gimana ya jelasinnya... oke, intinya..."
-   - Parenthetical remarks - "(${pronounInfo.first} serius!)", "(trust me on this)"`;
+   - Parenthetical remarks - "(${pronounInfo.first} serius!)", "(trust me on this)"
+   - SISIPKAN KESALAHAN KETIK (TYPO) RINGAN sebanyak 1%-5% dari total tulisan, agar terasa seperti diketik manusia secara natural. Contoh typo yang wajar dan tidak mengganggu pemahaman: "yagn" (yang), "adna" (anda), "dna" (dan), "untk" (untuk), "dalm" (dalam), "tapi" menjadi "tapii", "juga" menjadi "jga", huruf terbalik urutan seperti "memebuat" (membuat), atau spasi yang kurang/lebih. JANGAN buat typo pada kata kunci (keyword) utama, nama brand, angka, atau informasi penting. Typo harus terasa acak dan tidak berulang polanya.`;
             }
 
             prompt += `
@@ -1757,6 +1758,11 @@ Berita yang HANYA berisi fakta kering tanpa sentuhan jurnalistik akan terdeteksi
      * "Tidak hanya itu...", "Lebih dari sekadar...", "Yang tak kalah penting..."
    - Buat alur cerita mengalir, tidak terkotak-kotak`;
             }
+
+            prompt += `
+
+5. **SISIPKAN KESALAHAN KETIK (TYPO) RINGAN**
+   Sisipkan typo sebanyak 1%-5% dari total tulisan agar terasa seperti diketik manusia secara natural. Contoh typo yang wajar: "yagn" (yang), "dna" (dan), "untk" (untuk), "dalm" (dalam), huruf terbalik urutan seperti "memebuat" (membuat), atau spasi yang kurang/lebih. JANGAN buat typo pada nama narasumber, nama instansi, angka, data, keyword utama, atau informasi faktual penting. Typo harus terasa acak dan tidak berulang polanya.`;
 
             prompt += `
 
