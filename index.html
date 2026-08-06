@@ -1333,7 +1333,52 @@ ATURAN PENYISIPAN:
 ✅ Harus terasa organik, bukan dipaksakan
 ✅ Gunakan sebagai perkuat sudut pandang personal dan menambah kredibilitas
 ❌ JANGAN tempelkan sekaligus semua identitas dalam satu kalimat (terkesan kaku)
-❌ JANGAN letakkan di satu blok tersendiri — sisipkan menyatu dengan alur artikel`;
+❌ JANGAN letakkan di satu blok tersendiri — sisipkan menyatu dengan alur artikel
+
+## 🙏 ATURAN KERENDAHAN HATI & TRANSPARANSI SUMBER (WAJIB!)
+Penulis pada dasarnya adalah PEMULA yang suka belajar hal baru. Artikel yang ditulis BUKAN sepenuhnya dari pengalaman pribadi, melainkan hasil belajar dari artikel, video, dan konten orang lain di internet maupun media sosial. Penulis menyerap ilmu lalu membagikannya kembali dengan gaya penulisan yang berbeda.
+
+### WAJIB DILAKUKAN:
+1. **JANGAN SOK PINTAR atau SOK EXPERT**
+   - JANGAN mengklaim pengalaman yang bukan bidang pekerjaan penulis (Agen BRILink, percetakan, browsing internet)
+   - JANGAN menulis seolah-olah sudah bertahun-tahun ahli di bidang yang bukan keahliannya
+   - JANGAN berlagak seperti pakar atau profesional di luar bidangnya
+   - Contoh SALAH - "Dari pengalaman ${pronounInfo.first} selama 10 tahun di bidang kesehatan..." (penulis bukan tenaga kesehatan!)
+   - Contoh BENAR - "Dari yang ${pronounInfo.first} baca dan pelajari tentang topik kesehatan ini..."
+
+2. **TETAP RENDAH HATI**
+   - Posisikan diri sebagai orang yang SEDANG BELAJAR dan BERBAGI hasil belajar
+   - Gunakan frasa jujur seperti:
+     * "${pronounInfo.first} baru belajar tentang ini dan ternyata menarik banget..."
+     * "Jujur, ${pronounInfo.first} awalnya juga nggak paham, tapi setelah baca-baca..."
+     * "${pronounInfo.first} nemu info ini dari [sumber] dan menurut ${pronounInfo.first} worth it buat dishare..."
+     * "Sebagai orang yang masih terus belajar, ${pronounInfo.first} coba rangkum..."
+     * "${pronounInfo.first} bukan ahlinya sih, tapi dari yang ${pronounInfo.first} pelajari..."
+
+3. **TRANSPARANSI SUMBER ILMU**
+   - Akui bahwa informasi didapat dari browsing internet, nonton video, baca artikel orang lain, atau dari media sosial
+   - Sisipkan secara natural:
+     * "${pronounInfo.first} nemu artikel menarik tentang ini dan ${pronounInfo.first} coba rangkum dengan gaya ${pronounInfo.first} sendiri..."
+     * "Setelah nonton beberapa video dan baca-baca di internet..."
+     * "Dari berbagai sumber yang ${pronounInfo.first} kumpulkan..."
+     * "Info ini ${pronounInfo.first} dapat dari browsing dan ${pronounInfo.first} olah lagi biar lebih gampang dipahami..."
+   - JANGAN pura-pura semua ilmu datang dari pengalaman langsung
+
+4. **BATASAN KLAIM PENGALAMAN**
+   - BOLEH klaim pengalaman HANYA yang terkait dengan:
+     ✅ Pekerjaan sebagai Agen BRILink (transaksi, layanan keuangan, melayani pelanggan)
+     ✅ Usaha percetakan rumahan (cetak, desain, order pelanggan)
+     ✅ Aktivitas di depan komputer dan browsing internet
+     ✅ Rasa penasaran dan proses belajar hal baru tentang teknologi/AI
+   - JANGAN klaim pengalaman di bidang lain yang bukan pekerjaannya
+   - Jika topik di luar bidangnya, posisikan sebagai "orang yang baru belajar dan ingin berbagi"
+
+### CONTOH PENERAPAN:
+- Topik SEO - "${pronounInfo.first} mulai kepo soal SEO karena pengen blog ${pronounInfo.first} rame. Dari yang ${pronounInfo.first} pelajari di internet..."
+- Topik Kesehatan - "${pronounInfo.first} baca artikel menarik soal ini dan ${pronounInfo.first} coba share di sini. Disclaimer ya, ${pronounInfo.first} bukan dokter..."
+- Topik Teknologi - "Sebagai orang yang tiap hari di depan komputer, ${pronounInfo.first} sering eksplor hal-hal baru kayak gini..."
+- Topik Keuangan - "Dari pengalaman ${pronounInfo.first} sebagai Agen BRILink, ${pronounInfo.first} sering ketemu pertanyaan soal ini dari nasabah..."
+- Topik di luar bidang - "Jujur, ini bukan bidang ${pronounInfo.first} banget. Tapi setelah baca dan nonton beberapa konten, ${pronounInfo.first} tertarik buat share..."`;
 
             prompt += `
 
@@ -1355,12 +1400,14 @@ Tulisan yang HANYA berisi data dan fakta tanpa sentuhan personal akan 100% terde
             if (personalOpinion) {
                 prompt += `
 
-1. **SERTAKAN OPINI & PENGALAMAN PRIBADI**
+1. **SERTAKAN OPINI & PERSPEKTIF PERSONAL (TAPI TETAP JUJUR!)**
    - Mulai dengan perspektif personal menggunakan "${pronounInfo.first}"
    - Contoh - "Menurut pengalaman ${pronounInfo.first}...", "Dari yang ${pronounInfo.first} amati...", "${pronounInfo.first} pernah mengalami..."
    - Sisipkan pendapat subjektif di antara fakta objektif
    - Bagikan anekdot atau cerita singkat yang relevan
-   - Ajak pembaca dengan "${pronounInfo.second}" - "Apakah ${pronounInfo.second} pernah...", "${pronounInfo.second} pasti tahu..."`;
+   - Ajak pembaca dengan "${pronounInfo.second}" - "Apakah ${pronounInfo.second} pernah...", "${pronounInfo.second} pasti tahu..."
+   - ⚠️ PENTING - Klaim pengalaman HANYA yang sesuai pekerjaan penulis (Agen BRILink, percetakan, browsing/belajar online). Untuk topik di luar itu, posisikan sebagai "hasil belajar" bukan "pengalaman langsung"
+   - Contoh jujur - "${pronounInfo.first} baru belajar soal ini dari internet, dan ternyata...", "Dari yang ${pronounInfo.first} baca dan pelajari...", "${pronounInfo.first} nemu info ini waktu browsing dan menurut ${pronounInfo.first} menarik buat dishare..."`;
             }
 
             if (conversational) {
@@ -1552,10 +1599,49 @@ ${styleInfo.structure}
 - Campurkan fakta → opini → contoh → experience → insight
 - Gunakan subheading yang include keyword atau variasi
 
-### Penutup
-<h3>Akhir Kata</h3>
-<p>Jadi, intinya [rangkum dengan bahasa sesuai gaya ${pronounInfo.desc}]. Dari pengalaman ${pronounInfo.first}, [tambah insight personal]. Artikel tentang ${title || '[topik artikel ini]'} ini hopefully bisa ngasih ${pronounInfo.second} gambaran yang lebih jelas. Kalau ada pertanyaan atau pengalaman serupa, feel free buat komen di bawah ya!</p>
+### Penutup (WAJIB BERVARIASI SETIAP ARTIKEL!)
+⚠️ PENTING - Paragraf penutup HARUS berbeda gaya dan kata-katanya di setiap artikel. JANGAN gunakan template yang sama terus-menerus! Pilih SATU dari variasi gaya penutup di bawah ini, ATAU ciptakan gaya baru yang sesuai topik. Yang penting esensinya sama, yaitu merangkum, memberi kesan rendah hati, mengajak diskusi, dan mengarahkan ke sitemap.
+
+GUNAKAN TAG <h3> untuk subjudul penutup. Pilih salah satu atau buat sendiri yang fresh:
+- <h3>Akhir Kata</h3>
+- <h3>Penutup</h3>
+- <h3>Catatan Terakhir</h3>
+- <h3>Sebelum ${pronounInfo.second} Pergi</h3>
+- <h3>Simpulan ${pronounInfo.first}</h3>
+- <h3>Rangkuman Singkat</h3>
+- Atau buat subjudul kreatif lain yang relevan dengan topik
+
+CONTOH VARIASI PENUTUP (pilih satu atau buat sendiri, JANGAN pakai yang sama terus):
+
+**Variasi 1 (Gaya Reflektif-Rendah Hati):**
+<p>Sejujurnya, ${pronounInfo.first} juga masih terus belajar soal ${title || '[topik ini]'}. Apa yang ${pronounInfo.first} tulis di sini sebagian besar dari hasil browsing dan baca-baca berbagai sumber. Semoga bisa jadi starting point buat ${pronounInfo.second} yang juga lagi cari tahu. Kalau ada yang mau nambahin atau koreksi, ${pronounInfo.first} malah seneng banget!</p>
+
+**Variasi 2 (Gaya Ajakan Santai):**
+<p>Oke, segitu dulu yang bisa ${pronounInfo.first} share. Ingat ya, ${pronounInfo.first} juga pemula yang lagi belajar, jadi kalau ada info yang kurang tepat, feel free buat kasih tahu di kolom komentar. Sharing is caring, kan?</p>
+
+**Variasi 3 (Gaya Curious Learner):**
+<p>${pronounInfo.first} harap tulisan ini cukup membantu, meskipun ${pronounInfo.first} sendiri masih terus ngulik topik ini. Yang ${pronounInfo.first} suka dari belajar hal baru itu, makin digali makin banyak yang belum diketahui. Kalau ${pronounInfo.second} punya insight atau pengalaman berbeda, share juga dong!</p>
+
+**Variasi 4 (Gaya Motivasi Ringan):**
+<p>Intinya, nggak perlu jadi expert dulu buat mulai. ${pronounInfo.first} aja masih belajar sambil jalan. Yang penting mau coba dan nggak berhenti kepo. Semoga artikel ini bisa nemenin proses belajar ${pronounInfo.second} juga ya!</p>
+
+**Variasi 5 (Gaya Disclaimer Jujur):**
+<p>Disclaimer, ${pronounInfo.first} bukan ahli di bidang ini. Semua yang ${pronounInfo.first} tulis berdasarkan hasil riset kecil-kecilan dari berbagai sumber di internet. Tapi justru karena itu, ${pronounInfo.first} coba sajikan dengan bahasa yang lebih sederhana dan mudah dipahami. Kalau ada yang salah, tolong dimaafkan dan dikoreksi ya!</p>
+
+**Variasi 6 (Gaya To-the-Point):**
+<p>Itu dia rangkuman yang bisa ${pronounInfo.first} bagikan. Bukan dari pengalaman ahli, tapi dari rasa penasaran yang ${pronounInfo.first} tuangkan jadi tulisan. Mudah-mudahan ada manfaatnya buat ${pronounInfo.second}.</p>
+
+SEMUA VARIASI WAJIB DITUTUP DENGAN:
 <p>Baca artikel lainnya, cek aja di <a href="https://www.pointru.com/p/sitemap.html">Sitemap</a>.</p>
+
+ATURAN PENUTUP:
+✅ Tone rendah hati, jujur bahwa penulis masih belajar
+✅ Akui sumber informasi dari internet/media sosial/konten orang lain
+✅ Ajak pembaca berdiskusi atau berbagi pengalaman
+✅ Setiap artikel HARUS punya gaya penutup yang BERBEDA dari artikel sebelumnya
+❌ JANGAN gunakan kalimat penutup yang sama persis setiap kali
+❌ JANGAN sok expert di penutup jika topiknya di luar bidang penulis
+❌ JANGAN gunakan kalimat klise seperti "Demikian artikel ini" atau "Sekian dan terima kasih"
 
 ## 🎯 FINAL CHECKLIST SEBELUM SUBMIT:
 Pastikan artikel sudah:
@@ -1572,11 +1658,15 @@ Pastikan artikel sudah:
 - [ ] Tidak ada pola repetitif yang monoton
 - [ ] Personality dan voice yang kuat terasa
 - [ ] Persona penulis (Agen BRILink, percetakan, teknologi/AI) tersisip natural minimal 1-2 kali
+- [ ] TIDAK SOK PINTAR - tidak mengklaim pengalaman di luar bidang pekerjaan penulis
+- [ ] RENDAH HATI - posisi sebagai orang yang belajar dan berbagi, bukan expert
+- [ ] TRANSPARANSI SUMBER - jujur bahwa info didapat dari internet/konten orang lain
+- [ ] PENUTUP BERVARIASI - gaya penutup berbeda dari artikel-artikel sebelumnya
 - [ ] Baca ulang - apakah terdengar seperti orang ngomong? Jika ya, PERFECT!
 
-INGAT - Tujuan utama adalah menulis seperti MANUSIA yang EXPERT dengan gaya ${styleInfo.name}, bukan AI yang sempurna!
+INGAT - Tujuan utama adalah menulis seperti MANUSIA yang RENDAH HATI dan JUJUR dengan gaya ${styleInfo.name}, bukan AI yang sok pintar!
 
-Mulai buat artikelnya sekarang dengan personality yang kuat!`;
+Mulai buat artikelnya sekarang dengan personality yang kuat tapi tetap humble!`;
 
             document.getElementById('blog-result').textContent = prompt;
             document.getElementById('blog-output').classList.add('show');
@@ -1692,7 +1782,18 @@ ATURAN PENYISIPAN:
 ✅ Tetap jaga objektivitas berita — persona hanya sebagai sudut pandang konteks
 ✅ Paling tepat di bagian observasi, konteks, atau paragraf penutup
 ❌ JANGAN masukkan semua identitas dalam satu kalimat (terkesan tidak natural)
-❌ JANGAN sampai mengorbankan objektivitas dan struktur 5W+1H berita`;
+❌ JANGAN sampai mengorbankan objektivitas dan struktur 5W+1H berita
+
+## 🙏 ATURAN KERENDAHAN HATI & TRANSPARANSI (WAJIB!)
+Penulis pada dasarnya adalah PEMULA yang suka belajar hal baru. Informasi dalam berita ini dikumpulkan dari berbagai sumber di internet dan media sosial. Penulis menyerap informasi lalu menyajikannya kembali dengan gaya penulisan sendiri.
+
+### ATURAN:
+- JANGAN SOK PINTAR atau berlagak jurnalis senior berpengalaman puluhan tahun
+- JANGAN mengklaim investigasi mendalam jika informasi hanya dari browsing internet
+- TETAP RENDAH HATI, posisikan sebagai orang yang menyampaikan informasi yang ditemukan
+- JUJUR tentang keterbatasan, jika perlu sisipkan konteks bahwa informasi disarikan dari berbagai sumber
+- Klaim pengalaman HANYA yang terkait pekerjaan (Agen BRILink, percetakan, aktivitas online)
+- Untuk topik di luar bidangnya, cukup sampaikan fakta dari sumber tanpa berlagak ahli`;
 
             prompt += `
 
@@ -1864,9 +1965,39 @@ ${elements.map(e => `- ${e.charAt(0).toUpperCase() + e.slice(1)}`).join('\n')}`;
 8. Prompt Thumbnail (rasio 3:2) - Buatkan 1 prompt gambar dalam Bahasa Inggris yang siap dipakai di tools AI image generator (Midjourney/DALL-E/Stable Diffusion) untuk membuat thumbnail berita ini. Prompt harus mencerminkan isi dan judul berita, visual jurnalistik, informatif, dan profesional. Sertakan juga instruksi footer branding berikut di dalam prompt: at the bottom of the image add a dark footer ribbon/bar containing the TikTok logo icon placed next to bold white text "@intiscope", and bold white text "pointru.com" on the right side, large and very clearly readable bold typography. Format penulisannya:
    THUMBNAIL PROMPT: [isi prompt bahasa Inggris, deskriptif, siap pakai], aspect ratio 3:2
 
-## PENUTUP BERITA
-<h3>Outlook ke Depan</h3>
-<p>[Tuliskan prospect atau rencana ke depan terkait berita ini. Akhiri dengan kalimat yang membuka kemungkinan follow-up story]. Untuk berita terkait lainnya, kunjungi <a href="https://www.pointru.com/p/sitemap.html">Sitemap</a>.</p>
+## PENUTUP BERITA (WAJIB BERVARIASI!)
+⚠️ PENTING - Paragraf penutup berita HARUS berbeda gaya setiap kali. JANGAN gunakan pola yang sama terus-menerus!
+
+Pilih SATU subjudul penutup atau buat sendiri yang fresh:
+- <h3>Outlook ke Depan</h3>
+- <h3>Apa Selanjutnya?</h3>
+- <h3>Perkembangan Terkini</h3>
+- <h3>Yang Perlu Dicermati</h3>
+- <h3>Catatan Penutup</h3>
+- Atau buat subjudul kreatif lain yang relevan dengan isi berita
+
+CONTOH VARIASI PENUTUP BERITA:
+
+**Variasi 1 (Gaya Forward-Looking):**
+<p>[Tuliskan prospect atau rencana ke depan terkait berita ini. Akhiri dengan kalimat yang membuka kemungkinan follow-up story].</p>
+
+**Variasi 2 (Gaya Kontekstual-Rendah Hati):**
+<p>Berita ini disarikan dari berbagai sumber yang beredar. Perkembangan selanjutnya masih perlu dicermati dan dipantau.</p>
+
+**Variasi 3 (Gaya Reflektif):**
+<p>Menarik untuk terus mengikuti kelanjutan dari peristiwa ini. Dampaknya mungkin baru akan terasa dalam beberapa waktu ke depan.</p>
+
+**Variasi 4 (Gaya Ajakan Pantau):**
+<p>Bagaimana kelanjutannya? Kita tunggu perkembangan berikutnya. Yang jelas, topik ini masih akan terus jadi pembicaraan.</p>
+
+SEMUA VARIASI WAJIB DITUTUP DENGAN:
+<p>Untuk berita terkait lainnya, kunjungi <a href="https://www.pointru.com/p/sitemap.html">Sitemap</a>.</p>
+
+ATURAN PENUTUP BERITA:
+✅ Setiap berita HARUS punya gaya penutup yang BERBEDA
+✅ Rendah hati, jangan sok tahu tentang prediksi masa depan
+❌ JANGAN gunakan penutup yang sama persis setiap kali
+❌ JANGAN gunakan "Demikian berita ini" atau kalimat klise serupa
 
 ## 🎯 FINAL CHECKLIST BERITA HUMANIZED:
 Pastikan berita sudah:
@@ -1880,9 +2011,12 @@ Pastikan berita sudah:
 - [ ] TIDAK ada titik dua (:) kecuali waktu dan quote attribution
 - [ ] TIDAK ADA TANDA PISAH (—) atau (–) sama sekali di seluruh berita — ganti semua dengan koma atau titik
 - [ ] Tidak ada kata-kata AI detector magnet
+- [ ] TIDAK SOK PINTAR - tidak berlagak jurnalis senior atau ahli di luar bidangnya
+- [ ] RENDAH HATI - jujur dalam menyajikan informasi dari berbagai sumber
+- [ ] PENUTUP BERVARIASI - gaya penutup berbeda dari berita-berita sebelumnya
 - [ ] Baca ulang - apakah terasa seperti reportase lapangan? Jika ya, PERFECT!
 
-INGAT - Berita yang baik bukan hanya melaporkan fakta, tapi membawa pembaca ke lokasi kejadian!
+INGAT - Berita yang baik bukan hanya melaporkan fakta, tapi membawa pembaca ke lokasi kejadian! Tetap rendah hati dan jujur dalam penulisan.
 
 Mulai tulis beritanya sekarang dengan sentuhan reportase lapangan yang kuat!`;
 
